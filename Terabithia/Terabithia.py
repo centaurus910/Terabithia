@@ -12,7 +12,6 @@ def main(args):
             modules_to_query = ["crtsh", "alienvault", "chaos", "cdx", "dnsdumpster",
                                 "hackertarget", "securitytrails", "shodan", "virustotal"]
 
-            # Initialize a single instance of GetSub
             init_module = GetSub(args.domain)
 
             with ThreadPoolExecutor(max_workers=len(modules_to_query)) as executor:
@@ -29,7 +28,6 @@ def main(args):
                         output_file.write(subdomain + '\n')
                 print(f"\n[ OUTPUT ] Results also saved to {args.output}")
 
-            # Use the same instance for stats and report_logs
             init_module.stats()
             init_module.report_logs()
 
