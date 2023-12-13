@@ -5,7 +5,7 @@ from pathlib import Path
 class Config:
     def __init__(self, config='../configs/config.yaml'):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        self.config = dir_path + '../' + config
+        self.config = dir_path + config
         self.file_path  = Path(self.config)
 
     def secrets(self, module):
