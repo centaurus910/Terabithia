@@ -3,9 +3,8 @@ import os
 from pathlib import Path
 
 class Config:
-    def __init__(self, config='/configs/config.yaml'):
-        current_path = os.getcwd()
-        self.config = current_path + config
+    def __init__(self, config='/opt/Terabithia/Terabithia/configs/config.yaml'):
+        self.config = config
         self.file_path  = Path(self.config)
 
     def secrets(self, module):
