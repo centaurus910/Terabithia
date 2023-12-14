@@ -1,36 +1,35 @@
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 from modules.getsub import GetSub
-
-def query_module(module, getsub_instance):
-    getattr(getsub_instance, f"query_{module}")()
-    return getsub_instance.findings()
 
 def main(args):
     if args.module == "getsub":
         if args.domain:
-            modules_to_query = ["crtsh", "alienvault", "chaos", "cdx", "dnsdumpster",
-                                "hackertarget", "securitytrails", "shodan", "virustotal"]
-
             init_module = GetSub(args.domain)
+            init_module.query_crtsh()
+            init_module.query_alienvault()
+            init_module.query_chaos()
+            init_module.query_cdx()
+            init_module.query_dnsdumpster()
+            init_module.query_facebook_ct()
+            init_module.query_hackertarget()
+            init_module.query_securitytrails()
+            init_module.query_shodan()
+            init_module.query_virustotal()
+            results = init_module.findings()
 
-            with ThreadPoolExecutor(max_workers=len(modules_to_query)) as executor:
-                results = list(executor.map(lambda m: query_module(m, init_module), modules_to_query))
-
-            all_results = [subdomain for result in results for subdomain in result]
-
-            for subdomain in all_results:
+            # Print results to the console
+            for subdomain in results:
                 print(subdomain)
 
+            # Write results to the specified output file (if provided)
             if args.output:
                 with open(args.output, 'w') as output_file:
-                    for subdomain in all_results:
+                    for subdomain in results:
                         output_file.write(subdomain + '\n')
-                print(f"\n[ OUTPUT ] Results also saved to {args.output}")
+                print(f"Results also saved to {args.output}")
 
             init_module.stats()
             init_module.report_logs()
-
     else:
         print("Pass at this point")
 
