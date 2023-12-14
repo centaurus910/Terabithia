@@ -1,5 +1,3 @@
 requests
 pyyaml
-pathlib
-json
 https://github.com/PaulSec/API-dnsdumpster.com/archive/master.zip
